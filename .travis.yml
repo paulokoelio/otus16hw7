@@ -4,12 +4,18 @@ addons:
   apt:
     packages:
     - cmake
+    - libgtest-dev
     - doxygen
     - graphviz
 language: cpp
 before_script:
 - sudo apt-get update -qq
 - sudo apt install gcc-8 g++-8
+- cd /usr/src/gtest
+- sudo cmake .
+- sudo make
+- sudo cp *.a /usr/lib
+- cd $TRAVIS_BUILD_DIR
 script:
 - doxygen Doxyfile
 - cmake -D CMAKE_C_COMPILER=gcc-8 -D CMAKE_CXX_COMPILER=g++-8 -D CMAKE_C_FLAGS="-lstdc++fs" .
